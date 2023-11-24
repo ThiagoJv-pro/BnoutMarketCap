@@ -16,6 +16,9 @@ class Chart
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $CoinName = null;
 
+    #[ORM\Column(length: 255)]
+    private ?string $IdCoin = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -29,6 +32,18 @@ class Chart
     public function setCoinName(?string $CoinName): static
     {
         $this->CoinName = $CoinName;
+
+        return $this;
+    }
+
+    public function getIdCoin(): ?string
+    {
+        return $this->IdCoin;
+    }
+
+    public function setIdCoin(string $IdCoin): static
+    {
+        $this->IdCoin = $IdCoin;
 
         return $this;
     }
