@@ -68,6 +68,7 @@ class CoinController extends AbstractController
     {
     
       $infoCoin = $this->coin->getInfoCoin();
+      
       // dd($infoCoin);
       return new JsonResponse($infoCoin);
 

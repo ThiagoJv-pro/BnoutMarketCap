@@ -17,22 +17,28 @@ class TraditionalCurrencyBO
         $this->em = $em;
         $this->exchangeApi = $exchangeApi;
     }
-    public function getTraditionalCurrencyFromApi(): array
+    public function getTraditionalCurrencyFromApi(bool $getData = false): array
     {
-        $dataCurrency = [];
-        $dataTraditionalCurrency = $this->exchangeApi->requestSymbols();
-
-        foreach ($dataTraditionalCurrency["symbols"] as $symbol => $name)
+        if ($getData)
         {
-            $dataCurrency[] = array(
-                "Name" => $name,
-                "Symbol" => $symbol
-            );
-        }
+            $dataCurrency = [];
+            $dataTraditionalCurrency = $this->exchangeApi->requestSymbols();
+            $dataTraditionalCurrencyValue = $this->exchangeApi->requestCurrentQuoteByUsd();
 
-        $this->setTradionalCurrency($dataCurrency);
-        return $dataCurrency;
-    }
+            foreach ($dataTraditionalCurrency["symbols"] as $symbol => $name)
+            {   
+                $dataCurrency[] = array(
+                    "Name" => $name,
+                    "Symbol" => $symbol, 
+                    "Price"  => !empty($dataTraditionalCurrencyValue["rates"][$symbol]) ?  $dataTraditionalCurrencyValue["rates"][$symbol] : null
+                );
+
+            };
+                
+            $this->setTradionalCurrency($dataCurrency);
+            return $dataCurrency;
+        }
+    }   
 
     public function setTradionalCurrency(array $data): void
     {   
@@ -45,14 +51,17 @@ class TraditionalCurrencyBO
                 $tCurrency = new TraditionalCurrency();
                 $tCurrency->setName($tc["Name"]);
                 $tCurrency->setSymbol($tc["Symbol"]);
+                $tCurrency->setPrice($tc["Price"]);
             }
             $tCurrency->setName($tc["Name"]);
             $tCurrency->setSymbol($tc["Symbol"]);
+            $tCurrency->setPrice($tc["Price"]);
 
             $this->em->persist($tCurrency);
         }
 
         $this->em->flush();
     }
+
 
 }
