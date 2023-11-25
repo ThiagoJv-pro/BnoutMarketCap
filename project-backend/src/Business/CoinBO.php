@@ -23,7 +23,7 @@ class CoinBO
     public function getInfoCoin(): array
     {
         $traditionalCurrency = $this->em->createQueryBuilder()
-        ->select('t.name, t.symbol')
+        ->select('t.name, t.symbol, t.Price')
         ->from(TraditionalCurrency::class, 't')
         ->getQuery()
         ->getArrayResult();

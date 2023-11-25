@@ -22,7 +22,7 @@ class TraditionalCurrency
     private ?string $name = null;
 
     #[ORM\Column(nullable: true)]
-    private ?float $price = null;
+    private ?float $Price = null;
 
     #[ORM\Column(length: 255)]
     private ?string $symbol = null;
@@ -65,12 +65,12 @@ class TraditionalCurrency
 
     public function getPrice(): ?float
     {
-        return $this->price;
+        return $this->Price;
     }
 
-    public function setPrice(?float $price): static
+    public function setPrice(?float $Price): static
     {
-        $this->price = $price;
+        $this->Price = $Price;
 
         return $this;
     }

@@ -35,4 +35,15 @@ class exchangeApi{
             return $data;
     }
 
+    public function requestCurrentQuoteByUsd(){
+        $response = $this->httpClientInterface->request(
+            'GET',
+            'https://api.apilayer.com/exchangerates_data/latest?base=USD',
+            ['headers' => ['apikey' => '0w32WnVLsMtiLKHJ7ArQQStJLtmccCL6' ]]
+        );
+
+        $data = $response->toArray();
+        return $data;
+    }
+
 }
