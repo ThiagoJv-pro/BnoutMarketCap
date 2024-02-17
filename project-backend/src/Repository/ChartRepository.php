@@ -36,13 +36,19 @@ class ChartRepository extends ServiceEntityRepository
 //        ;
 //    }
 
-//    public function findOneBySomeField($value): ?Chart
+//    public function findByDataChart():array
 //    {
 //        return $this->createQueryBuilder('c')
-//            ->andWhere('c.exampleField = :val')
-//            ->setParameter('val', $value)
+//             ->select('c.id','c.name_coin', 'c.date', 'c.current_amount', 'c.volume_usd1_hr', 'c.volume_usd24_hr')
+//            ->from(Chart::class, 'c')
 //            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
+//            ->getArrayResult();
 //    }
-}
+
+
+public function allData()
+    {
+    return $this->createQueryBuilder('c')
+       ->getQuery();
+    }
+ }

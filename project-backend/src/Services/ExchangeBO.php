@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Business;
+namespace App\Services;
 
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Response;

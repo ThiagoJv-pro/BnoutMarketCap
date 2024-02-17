@@ -21,28 +21,20 @@ class CryptocurrencyRepository extends ServiceEntityRepository
         parent::__construct($registry, Cryptocurrencys::class);
     }
 
-//    /**
-//     * @return Cryptocurrency[] Returns an array of Cryptocurrency objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('c')
-//            ->andWhere('c.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('c.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
+    public function getCryptoCurrencyQB(): array
+    {
+       return $this->createQueryBuilder('c')
+       ->select('c.name, c.symbol, c.Price')
+       ->getQuery()
+       ->getArrayResult();
+    }
 
-//    public function findOneBySomeField($value): ?Cryptocurrency
-//    {
-//        return $this->createQueryBuilder('c')
-//            ->andWhere('c.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
-//    }
+    public function getFavoriteListCryptoCurrencyQB(): array
+    {
+       return $this->createQueryBuilder('c')
+       ->select('c.name, c.symbol, c.Price')
+       ->getQuery()
+       ->setMaxResults(3)
+       ->getArrayResult();
+    }
 }

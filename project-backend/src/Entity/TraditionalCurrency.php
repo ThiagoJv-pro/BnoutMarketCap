@@ -16,9 +16,6 @@ class TraditionalCurrency
     private ?int $id = null;
 
     #[ORM\Column(length: 255, nullable: true)]
-    private ?string $id_currency = null;
-
-    #[ORM\Column(length: 255, nullable: true)]
     private ?string $name = null;
 
     #[ORM\Column(nullable: true)]
@@ -31,26 +28,6 @@ class TraditionalCurrency
     {
         return $this->id;
     }
-
-    public function setId(?int $id): static
-    {
-        $this->id = $id;
-
-        return $this;
-    }
-
-    public function getIdCurrency(): ?string
-    {
-        return $this->id_currency;
-    }
-
-    public function setIdCurrency(?string $id_currency): static
-    {
-        $this->id_currency = $id_currency;
-
-        return $this;
-    }
-
     public function getName(): ?string
     {
         return $this->name;

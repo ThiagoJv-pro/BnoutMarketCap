@@ -14,14 +14,17 @@ class Chart
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\OneToOne(cascade: ['persist', 'remove'])]
-    private ?Coin $nameCoin = null;
+    #[ORM\OneToOne(targetEntity: CoinPrice::class, mappedBy: 'coinPrice', cascade: ['persist'])]
+    #[ORM\JoinColumn(name: 'coin_price_id', referencedColumnName: 'id')]
+    private ?CoinPrice $coinPrice = null;
+    
+    private ?string $nameCoin = null;
 
-    #[ORM\OneToOne(cascade: ['persist', 'remove'])]
-    private ?Coin $idCoin = null;
+    #[ORM\Column(length: 255, nullable: false)]
+    private ?string $symbol = null;
 
-    #[ORM\OneToOne(cascade: ['persist', 'remove'])]
-    private ?Coin $currentAmount = null;
+    #[ORM\Column]
+    private ?float $currentAmount = null;
 
     #[ORM\Column]
     private ?float $volumeUsd24Hr = null;
@@ -37,36 +40,24 @@ class Chart
         return $this->id;
     }
 
-    public function getNameCoin(): ?Coin
+    public function getNameCoin(): ?string
     {
         return $this->nameCoin;
     }
 
-    public function setNameCoin(?Coin $nameCoin): static
+    public function setNameCoin(string $nameCoin): static
     {
         $this->nameCoin = $nameCoin;
 
         return $this;
     }
 
-    public function getIdCoin(): ?Coin
-    {
-        return $this->idCoin;
-    }
-
-    public function setIdCoin(?Coin $idCoin): static
-    {
-        $this->idCoin = $idCoin;
-
-        return $this;
-    }
-
-    public function getCurrentAmount(): ?Coin
+    public function getCurrentAmount(): ?float
     {
         return $this->currentAmount;
     }
 
-    public function setCurrentAmount(?Coin $currentAmount): static
+    public function setCurrentAmount(float $currentAmount): static
     {
         $this->currentAmount = $currentAmount;
 
@@ -108,4 +99,16 @@ class Chart
 
         return $this;
     }
+
+    public function setSymbol(string $symbol): static
+    {
+        $this->symbol = $symbol;
+        return $this;
+    }
+
+    public function getSymbol(): ?string
+    {
+        return $this->symbol;
+    }
+
 }

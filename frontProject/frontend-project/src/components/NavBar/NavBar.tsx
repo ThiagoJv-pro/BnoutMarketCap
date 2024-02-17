@@ -5,14 +5,14 @@ import Container from 'react-bootstrap/Container';
 import NavbarBrand from 'react-bootstrap/NavbarBrand'
 import NavbarToggle from 'react-bootstrap/NavbarToggle'
 import 'bootstrap/dist/css/bootstrap.min.css';
+import './style.scss';
 
 export function NavBar() 
 {
-    const style={color: 'white'}
     return(
     <Navbar>
         <Container>
-            <NavbarBrand href="#home" style={style}>Bnout MarketCap</NavbarBrand>
+            <NavbarBrand className='nav-style' href="#home">Bnout MarketCap</NavbarBrand>
         </Container>
     </Navbar> 
     )
