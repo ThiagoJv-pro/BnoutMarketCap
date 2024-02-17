@@ -21,10 +21,15 @@ services:
             - '../src/Entity/'
             - '../src/Kernel.php'
 
-    App\Business\TraditionalCurrencyBO:
-    App\Business\CryptocurrencyBO:
-
-
+    App\Services\TraditionalCurrencyBO:
+    App\Services\CryptocurrencyService:
+    App\Entity\Coin:
+    App\Entity\Chart:
+    App\Services\ChartService:
+    App\Services\NewsService:
+    App\Entity\News:
+    App\Entity\Converter:
+    App\Services\EmailService:
 
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones

@@ -1,29 +1,31 @@
-import {ApexOptions} from 'apexcharts';
+import {ApexOptions, Props} from 'apexcharts';
 import Chart from 'react-apexcharts';
+import api from "../../api/dataapi.tsx";
+import {useEffect, useState} from 'react';
+import {axiosChart} from '../../helpers/ChartTsHelper.ts';
+import './style.scss';
 
-const ChartTs = () => {
+const ChartC = ({cryptoCurrency}: any) => {
+    const seriesData = [];
+    const dataChart = [];
+    var [data, setData] = useState(null);
     const type = 'area';
-    const generateRandomData = () => {
-        const dataPoints = 20; // Número de pontos de dados
-        const startDate = new Date('2023-01-01').getTime(); // Data inicial em milissegundos
-        const endDate = new Date('2023-01-10').getTime(); // Data final em milissegundos
-        const seriesData = [];
 
-        for (let i = 0; i < dataPoints; i++) {
-            const randomTimestamp = i;
-            const randomValue = i + 1;
-            seriesData.push({
-                x: randomTimestamp,
-                y: randomValue
-            });
-        }
+        useEffect(() =>{
+            const getData = async() => {
+                await api.get('/chart/' + cryptoCurrency)
+                .then(response => {
+                    setData(response.data);
+                })    
+            }
+           getData();
+        }, [cryptoCurrency]) // Adiciona cryptoCurrency como dependência do useEffect
 
-        return seriesData;
-    };
 
+    
     const series = [{
-        name: 'Random Data',
-        data: generateRandomData()
+        name: 'Price',
+        data: axiosChart(data)
     }];
 
     const HISTORIC_CHART: ApexOptions = {
@@ -93,9 +95,15 @@ const ChartTs = () => {
                     colors: ["white"]
                 },
             },
-        }
-    }
+        },
 
+        tooltip: {
+            x: {
+              format: 'dd MMM yyyy'
+            }
+          },
+    }
+    
     return(
         <div>
             <p></p>
@@ -108,7 +116,7 @@ const ChartTs = () => {
     );
 };
 
-export default ChartTs;
+export default ChartC;
 
 
 

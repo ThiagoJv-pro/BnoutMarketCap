@@ -45,4 +45,13 @@ class CoinRepository extends ServiceEntityRepository
 //            ->getOneOrNullResult()
 //        ;
 //    }
-}
+
+
+public function allData()
+    {
+    return $this->createQueryBuilder('c')
+       ->getQuery()
+       ->getArrayResult();
+    }
+ }
+

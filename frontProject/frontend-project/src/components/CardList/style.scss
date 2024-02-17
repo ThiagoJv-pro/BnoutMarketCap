@@ -1,0 +1,40 @@
+$border-radius: 10px;
+$default-background-color: #212121;
+$background-color-main: transparent;
+$box-shadow: 0px 2px 4px black;
+
+.card-main {
+    margin-top: 1vh;
+    padding: 10px;
+    border-radius: $border-radius;
+    height: 23vh;
+    background-color: $default-background-color;
+    box-shadow: $box-shadow;
+}
+
+.card-list {
+    height: 20vh;
+    overflow: auto;
+}
+
+.list {
+    background-color: $default-background-color;
+    border-top-style: none;
+    border-right-style: none;
+    border-left-style: none;
+    border-bottom-style: medium;
+    border-bottom-color: #14FFEC;
+}
+
+.list:hover {
+    background-color: #14FFEC;
+    .coins {
+        color: black;
+    }
+}
+
+.coins {
+    color: white; 
+    margin: 0; 
+    font-size: smaller;
+}

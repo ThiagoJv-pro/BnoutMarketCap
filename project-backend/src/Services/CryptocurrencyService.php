@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Business;
+namespace App\Services;
 use App\Entity\Cryptocurrencys;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Response;
-use App\Entity\Coin;
-class CryptocurrencyBO
+
+class CryptocurrencyService
 {
     public EntityManagerInterface $em;
     public function __construct(EntityManagerInterface $em){
@@ -13,8 +13,6 @@ class CryptocurrencyBO
     }
     public function getCryptoCurrencysFromApi(array $data)
     {       
-
-        $response = new Response();
         // try{   
             if(isset($data))
             {
