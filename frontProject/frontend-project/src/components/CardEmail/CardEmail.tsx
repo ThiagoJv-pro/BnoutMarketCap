@@ -3,13 +3,16 @@ import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import {useEffect, useState} from 'react';
 import api from '../../api/dataapi.tsx';
+import CardInfo from '../CardInfo/CardInfo.tsx';
+import Modals from '../Modal/Modal.tsx';
 import './style.scss';
 
 const CardEmail = () => {
 
-    const [isSubmitted, setIsSubmitted] = useState(false);
+    const[isSubmitted, setIsSubmitted] = useState(false);
     const[email, setEmail] = useState('');
     const[coin, setCoin] = useState('All');
+    const [showModal, setShowModal] = useState(false);
 
     const emailForm = (event) => {
         setEmail(event.target.value); 
@@ -24,18 +27,26 @@ const CardEmail = () => {
             email: email,
             coin: coin
         }).then(response => {
-            console.log(response)
             setIsSubmitted(true);
         })
     }
-
+    const openModal = () => {
+        setShowModal(true);
+      };
     
+      const closeModal = () => {
+        setShowModal(false);
+      };
+    
+     
 return (
         <>
             <Container className='main-card'>
-                <Container className='card-info' onClick={'teste'}>
-		            <span className='title'>Receive list of coins</span>
-		        </Container>
+            {showModal ? (
+            <Modals Card={CardEmail} show={true} onClose={closeModal} />
+          ) : (
+            <CardInfo component={CardEmail} onClick={openModal} />
+          )}
                 <Container className='card-email'>
                     {!isSubmitted ? ( 
                           <Form onSubmit={handleSubmit}>
@@ -55,7 +66,7 @@ return (
                           </Button>
                       </Form>
                     ) : (
-                        <div>Form submitted successfully!</div>
+                        <h2 style={{color:'white'}}>Email successfully sent!</h2>
                     )}
                 </Container>
             </Container>

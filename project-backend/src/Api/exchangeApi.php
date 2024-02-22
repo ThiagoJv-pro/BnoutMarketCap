@@ -13,8 +13,8 @@ class exchangeApi{
     {
         $response = $this->httpClientInterface->request(
             'GET',
-            'https://api.apilayer.com/exchangerates_data/latest?symbols=BRL&base=USD',
-            ['headers' => ['apikey' => '0w32WnVLsMtiLKHJ7ArQQStJLtmccCL6' ]]       
+            $_ENV['EXCHANGE_LATEST'],
+            ['headers' => ['apikey' => $_ENV['EXCHANGE_KEY'] ]]       
             );
 
             $data = $response->toArray();
@@ -26,8 +26,8 @@ class exchangeApi{
     {
         $response = $this->httpClientInterface->request(
             'GET',
-            'https://api.apilayer.com/exchangerates_data/symbols',
-            ['headers' => ['apikey' => '0w32WnVLsMtiLKHJ7ArQQStJLtmccCL6' ]]       
+            $_ENV['EXCHANGE_SYMBOLS'],
+            ['headers' => ['apikey' => $_ENV['EXCHANGE_KEY'] ]]        
             );
 
             $data = $response->toArray();
@@ -38,8 +38,8 @@ class exchangeApi{
     public function requestCurrentQuoteByUsd(){
         $response = $this->httpClientInterface->request(
             'GET',
-            'https://api.apilayer.com/exchangerates_data/latest?base=USD',
-            ['headers' => ['apikey' => '0w32WnVLsMtiLKHJ7ArQQStJLtmccCL6' ]]
+            $_ENV['EXCHANGE_LATEST_USD'],
+            ['headers' => ['apikey' => $_ENV['EXCHANGE_KEY'] ]]
         );
 
         $data = $response->toArray();

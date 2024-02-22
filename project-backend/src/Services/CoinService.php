@@ -46,7 +46,7 @@ class CoinService
         }
     }
 
-    //Recupera todas os registros de cryptomoedas
+
     public function getListCrypto(): array
     {
         $cryptoList = $this->em->getRepository(Cryptocurrencys::class)->getCryptoCurrencyQB();

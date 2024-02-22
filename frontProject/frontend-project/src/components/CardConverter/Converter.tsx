@@ -1,3 +1,4 @@
+import React, { useEffect, useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
@@ -6,82 +7,92 @@ import Dropdown from 'react-bootstrap/Dropdown';
 import { FaExchangeAlt } from "react-icons/fa";
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
-import { useEffect, useState } from 'react';
 import api from "../../api/dataapi.tsx";
-import DropdownButton from 'react-bootstrap/DropdownButton';
+import Modals from '../Modal/Modal.tsx';
+import CardInfo from '../CardInfo/CardInfo.tsx';
 import './style.scss';
 
 const Converter = () => {
+  const [data, setData] = useState([]);
+  const [converter, setConverter] = useState(0.1);
+  const [currencyFrom, setCurrencyFrom] = useState(null);
+  const [currencyTo, setCurrencyTo] = useState(null);
+  const [symbolTo, setSymbolTo] = useState(null);
+  const [symbolFrom, setSymbolFrom] = useState(null);
+  const [priceFrom, setPriceFrom] = useState(1);
+  const [priceTo, setPriceTo] = useState(1);
+  const [inverter, setInverter] = useState(false);
+  const [showModal, setShowModal] = useState(false);
 
-  const request = [];
-  
-  let [data, setData] = useState(null);
-  let [converter, setConverter] = useState(0.1);
-  let [currencyFrom, setCurrencyFrom] = useState(null);
-  let [currencyTo, setCurrencyTo] = useState(null);
-  let [symbolTo, setSymbolTo] = useState(null);
-  let [symbolFrom, setSymbolFrom] = useState(null);
-  let [priceFrom, setPriceFrom] = useState(1);
-  let [priceTo, setPriceTo] = useState(1);
-  let [inverter, setInverter] = useState(false);
-
-  const selectItemFrom = (name: string, price: float, symbol: string) => {
-    let priceFormatter = price.toFixed(2);
-    setCurrencyFrom(name);
-    setPriceFrom(priceFormatter);
-    setSymbolFrom(symbol);
-  }
-
-  const selectItemTo = (name: string, price: float, symbol: string) => {
-    let priceFormatter = price.toFixed(2);
-    setCurrencyTo(name);
-    setPriceTo(priceFormatter);
-    setSymbolTo(symbol);
-  }
-
-  const invertItems = () => {
-    setCurrencyFrom(setCurrencyTo);
-    setCurrencyTo(setCurrencyFrom);
-    setPriceFrom(setPriceTo);
-    setPriceTo(setPriceFrom);
-    setInverter(true);
-  }
-
-  useEffect(() => {
-    const getData = async () => {
-      await api.get('currency')
-        .then(response => {
-          setData(response.data);
-        });
+  const fetchData = async () => {
+    try {
+      const response = await api.get('currency');
+      setData(response.data || []);
+    } catch (error) {
+      console.error(error);
     }
-    getData();
-  }, []);
+  };
 
-  useEffect(() => {
-    const getData = async () => {
-      await api.get('/converter', {
+  const fetchConverterData = async () => {
+    try {
+      const response = await api.get('/converter', {
         params: {
           fromPrice: priceFrom,
           toPrice: priceTo,
           inverter: inverter
         }
-      })
-      .then(response => {
-        setConverter(response.data);
       });
+      setConverter(response.data);
+    } catch (error) {
+      console.error(error);
     }
-    getData();
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+  useEffect(() => {
+    fetchConverterData();
   }, [priceFrom, priceTo, inverter]);
 
-  data?.forEach(element => {
-    request.push(element);
-  });
+  const selectItem = (name, price, symbol, isFrom) => {
+    const priceFormatter = price.toFixed(2);
+    isFrom
+      ? setCurrencyFrom(name)
+      : setCurrencyTo(name);
+    isFrom
+      ? setSymbolFrom(symbol)
+      : setSymbolTo(symbol);
+    isFrom
+      ? setPriceFrom(priceFormatter)
+      : setPriceTo(priceFormatter);
+  };
+
+  const invertItems = () => {
+    setCurrencyFrom(currencyTo);
+    setCurrencyTo(currencyFrom);
+    setPriceFrom(priceTo);
+    setPriceTo(priceFrom);
+    setInverter(true);
+  };
+
+  const openModal = () => {
+    setShowModal(true);
+  };
+
+  const closeModal = () => {
+    setShowModal(false);
+  };
 
   return (
     <>
-      <Container className='card-info' onClick={'teste'}>
-        <span className='title'>Converter</span>
-      </Container>
+      {showModal ? (
+        <Modals Card={Converter} show={true} onClose={closeModal} />
+      ) : (
+        <CardInfo component={Converter} onClick={openModal} />
+      )}
+
       <Container className='card-main'>
         <Row>
           <Col>
@@ -97,9 +108,11 @@ const Converter = () => {
                     {currencyFrom}
                   </Dropdown.Toggle>
                   <Dropdown.Menu className='dropdown-menu-converter'>
-                    {data?.map((result =>  
-                      <Dropdown.Item className='dropdown-item-converter'
-                        onClick={() => selectItemFrom(result.name, result.Price, result.symbol)}>
+                    {data.map(result => (
+                      <Dropdown.Item
+                        key={result.name}
+                        className='dropdown-item-converter'
+                        onClick={() => selectItem(result.name, result.Price, result.symbol, true)}>
                         {result.symbol} - {result.name}
                       </Dropdown.Item>
                     ))}
@@ -113,7 +126,7 @@ const Converter = () => {
           </Col>
           <Col md="auto" style={{ textAlign: "center" }}>
             <div style={{ marginTop: "150%" }}>
-              <Button className='converter-button' onClick={() => invertItems()}>
+              <Button className='converter-button' onClick={invertItems}>
                 <i><FaExchangeAlt style={{ color: "#14FFEC" }} /></i>
               </Button>
             </div>
@@ -131,9 +144,11 @@ const Converter = () => {
                     {currencyTo}
                   </Dropdown.Toggle>
                   <Dropdown.Menu className='dropdown-menu-converter'>
-                    {data?.map((result =>  
-                      <Dropdown.Item className='dropdown-item-converter'
-                        onClick={() => selectItemTo(result.name, result.Price, result.symbol)}>
+                    {data.map(result => (
+                      <Dropdown.Item
+                        key={result.name}
+                        className='dropdown-item-converter'
+                        onClick={() => selectItem(result.name, result.Price, result.symbol, false)}>
                         {result.symbol} - {result.name}
                       </Dropdown.Item>
                     ))}
@@ -154,6 +169,6 @@ const Converter = () => {
       </Container>
     </>
   );
-}
+};
 
 export default Converter;
