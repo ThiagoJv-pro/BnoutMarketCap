@@ -12,7 +12,6 @@ class apiClient{
     ){
     }
     
-
     public function getData(): array{
 
         $response = $this->client->request(

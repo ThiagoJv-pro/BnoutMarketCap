@@ -7,7 +7,7 @@ const Modals = ({ Card, show, onClose }) => {
 
   const handleClose = () => {
     setShowCard(false);
-    onClose(); // Chama a função onClose para fechar o modal e esconder o CardInfo
+    onClose(); 
   };
 
 

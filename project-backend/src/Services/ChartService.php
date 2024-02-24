@@ -24,6 +24,8 @@ class ChartService
 
     public function updateChart()
     {
+        $this->coinService->getCoinToApi();
+        
         $consultCoin = $this->em->getRepository(Coin::class)
             ->allData();
 

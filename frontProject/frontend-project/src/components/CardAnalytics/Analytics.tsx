@@ -3,7 +3,9 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import Container from 'react-bootstrap/Container';
 import Dropdown from 'react-bootstrap/Dropdown';
 import Card from 'react-bootstrap/Card';
-import { FaExchangeAlt } from "react-icons/fa";
+import Button from 'react-bootstrap/Button';
+import { TfiReload } from 'react-icons/tfi';
+import { FaExchangeAlt } from 'react-icons/fa';
 import api from '../../api/dataapi.tsx';
 import ChartC from '../Chart/Chart.tsx';
 import Modals from '../Modal/Modal.tsx';
@@ -20,25 +22,6 @@ const Analytics = () => {
   const [priceTo, setPriceTo] = useState(null);
   const [showModal, setShowModal] = useState(false);
 
-  const selectItemFrom = (name, price, symbol) => {
-    setCurrencyFrom(name);
-    setPriceFrom(price);
-    setSymbolFrom(symbol);
-  }
-
-  const selectItemTo = (name, price, symbol) => {
-    setCurrencyTo(name);
-    setPriceTo(price);
-    setSymbolTo(symbol);
-  }
-
-  const invertItems = () => {
-    setCurrencyFrom(currencyTo);
-    setCurrencyTo(currencyFrom);
-    setPriceFrom(priceTo);
-    setPriceTo(priceFrom);
-  }
-
   const request = [];
 
   useEffect(() => {
@@ -49,14 +32,17 @@ const Analytics = () => {
       } catch (error) {
         console.error(error);
       }
-    }
-
+    };
     getData();
   }, []);
 
-  data?.forEach(element => {
+  data?.forEach((element) => {
     request.push(element);
   });
+
+  const updateChart = async () => {
+    await api.get('/chart/update');
+  };
 
   const openModal = () => {
     setShowModal(true);
@@ -64,6 +50,25 @@ const Analytics = () => {
 
   const closeModal = () => {
     setShowModal(false);
+  };
+
+  const selectItemFrom = (name, price, symbol) => {
+    setCurrencyFrom(name);
+    setPriceFrom(price);
+    setSymbolFrom(symbol);
+  };
+
+  const selectItemTo = (name, price, symbol) => {
+    setCurrencyTo(name);
+    setPriceTo(price);
+    setSymbolTo(symbol);
+  };
+
+  const invertItems = () => {
+    setCurrencyFrom(currencyTo);
+    setCurrencyTo(currencyFrom);
+    setPriceFrom(priceTo);
+    setPriceTo(priceFrom);
   };
 
   return (
@@ -77,27 +82,31 @@ const Analytics = () => {
       <Container className='card-main-chart'>
         <Dropdown>
           <Dropdown.Toggle
-            style={{ border: "hidden", color: "#14FFEC" }}
-            variant="outline-secondary"
-            id="dropdown-basic">
+            style={{ border: 'hidden', color: '#14FFEC' }}
+            variant='outline-secondary'
+            id='dropdown-basic'>
             {currencyFrom}
           </Dropdown.Toggle>
 
           <Dropdown.Menu className='dropdown-menu-chart'>
-            {data?.map(result =>
-              <Dropdown.Item style={{ color: "white" }}
+            {data?.map((result) => (
+              <Dropdown.Item
+                style={{ color: 'white' }}
                 key={result.symbol}
                 onClick={() => selectItemFrom(result.name, result.Price, result.symbol)}>
                 {result.symbol} - {result.name}
               </Dropdown.Item>
-            )}
+            ))}
           </Dropdown.Menu>
+          <Button className='reload-button' label='Reload Button' onClick={() => updateChart()}>
+            <i><TfiReload /></i>
+          </Button>
         </Dropdown>
 
         <ChartC cryptoCurrency={symbolFrom} />
       </Container>
     </>
   );
-}
+};
 
 export default Analytics;

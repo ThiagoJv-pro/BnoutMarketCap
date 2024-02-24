@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Api\apiClient;
 use App\Entity\Coin;
 use App\Entity\Cryptocurrencys;
 use App\Entity\TraditionalCurrency;
@@ -11,7 +12,8 @@ class CoinService
 {
 
     public function __construct
-    (
+    (   
+        private apiClient $apiClient,
         private EntityManagerInterface $em,
         private TraitService $traitService
     ) {
@@ -74,6 +76,11 @@ class CoinService
         $currencyList = $this->em->getRepository(TraditionalCurrency::class)->getFavoriteTraditionalCurrencyQB();
 
         return $currencyList;
+    }
+    public function getCoinToApi(): array {
+        $coinList = $this->apiClient->getData();
+
+        return $coinList;
     }
 
 }
