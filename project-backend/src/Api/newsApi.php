@@ -16,7 +16,7 @@ class newsApi
         $response = $this->httpClientInterface->request
         (
             'GET',
-            'https://www.alphavantage.co/query?function=NEWS_SENTIMENT&tickers=COIN,CRYPTO:BTC,FOREX:USD&time_from=20220410T0130&limit=1000&apikey=VIP0R0SKGEARFPR8'
+            $_ENV['NEWS_URL']
         );
 
         $data = $response->toArray();

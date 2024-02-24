@@ -6,17 +6,17 @@ use Symfony\Component\HttpClient\HttpClient;
 
 class apiClient{
 
-    public function __construct(
+    public function __construct 
+    (
         private HttpClientInterface $client
-        ){
-        }
+    ){
+    }
     
-
     public function getData(): array{
 
         $response = $this->client->request(
-            "GET",
-            "https://api.coincap.io/v2/assets"
+            'GET',
+            $_ENV['COINCAP_URL']
         );
         $data = $response->toArray();
         $result = array();
@@ -29,8 +29,6 @@ class apiClient{
                     'symbol' => $value['symbol'],
                 );
             }
-
         return $result;
-    
     }
 }

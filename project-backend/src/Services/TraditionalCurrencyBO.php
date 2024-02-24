@@ -28,8 +28,7 @@ class TraditionalCurrencyBO
                     "Symbol" => $symbol,
                     "Price" => !empty($dataTraditionalCurrencyValue["rates"][$symbol]) ? $dataTraditionalCurrencyValue["rates"][$symbol] : null
                 );
-            }
-            ;
+            };
 
             $this->setTraditionalCurrency($dataCurrency);
             return $dataCurrency;
@@ -49,7 +48,6 @@ class TraditionalCurrencyBO
                     [$tc["Name"], $tc["Price"], $tc["Symbol"]]
                 );
             }
-
             $tCurrency->setName($tc["Name"]);
             $tCurrency->setSymbol($tc["Symbol"]);
             $tCurrency->setPrice($tc["Price"]);

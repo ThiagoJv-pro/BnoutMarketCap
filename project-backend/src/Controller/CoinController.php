@@ -52,13 +52,15 @@ class CoinController extends AbstractController
   }
 
   #[Route('/currency', name: 'get_currency', methods: ['GET'])]
-  /**@Cors(allowOrigin="*", allowHeaders={"X-Requested-With", "Content-Type"})
-   */
-  public function getCurrency(): Response
+  #[Route('/currency/update', name: 'get_currency_update', methods: ['GET'])]
+  public function getCurrency(Request $request): Response
   {
     try {
-      // $this->traditionalCurrencyBO->getTraditionalCurrencyFromApi(true);
-      $infoCoin = $this->coin->getInfoCoin();
+      $data = $request->get('_route');
+
+      $infoCoin = ($data == 'get_currency') ? 
+      $this->coin->getInfoCoin() : 
+      $this->traditionalCurrencyBO->getTraditionalCurrencyFromApi(true); 
 
       return new JsonResponse($infoCoin);
 
@@ -66,11 +68,9 @@ class CoinController extends AbstractController
 
       throw new $e('Erro ao processar requisicao ' . 'linha: ' . $e->getLine());
     }
-
   }
 
   #[Route('/listCoin', name: 'get_list_coin', methods: ['GET'])]
-
   public function getListCoin(Request $request): Response
   {
     try {

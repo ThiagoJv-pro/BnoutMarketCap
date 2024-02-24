@@ -14,7 +14,6 @@ class TraitService
     ) {
     }
 
-    # SaveEntity ira receber um atributo e um valor
     public function saveNewEntity($classEntity, $params)
     {
         $counter = 0;
@@ -55,7 +54,7 @@ class TraitService
 
         return $classEntity;
     }
-    //Get methods of class (Gatters or Setters)
+    //Get all methods of class (Gatters or Setters)
     public function getMethodsByClass($classEntity, $char): array
     {
         $methods = [];
