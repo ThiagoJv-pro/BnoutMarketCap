@@ -40,7 +40,7 @@ class SendCoinListEmail
         }
 
             $email = (new TemplatedEmail())
-                ->from('teste.teste@gmail.com')
+                ->from('project@gmail.com')
                 ->to($emailEntity->getAddress())
                 ->subject('Exchange list')
                 ->htmlTemplate('email/index.html.twig')
