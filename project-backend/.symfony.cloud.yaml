@@ -1,3 +1,0 @@
-variables:
-    env:
-        SYMFONY_DEFAULT_ROUTE_URL: 'http://localhost:40745'
