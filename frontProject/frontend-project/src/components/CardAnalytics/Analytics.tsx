@@ -2,10 +2,8 @@ import React, { useState, useEffect } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Container from 'react-bootstrap/Container';
 import Dropdown from 'react-bootstrap/Dropdown';
-import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
 import { TfiReload } from 'react-icons/tfi';
-import { FaExchangeAlt } from 'react-icons/fa';
 import api from '../../api/dataapi.tsx';
 import ChartC from '../Chart/Chart.tsx';
 import Modals from '../Modal/Modal.tsx';
@@ -22,8 +20,6 @@ const Analytics = () => {
   const [priceTo, setPriceTo] = useState(null);
   const [showModal, setShowModal] = useState(false);
 
-  const request = [];
-
   useEffect(() => {
     const getData = async () => {
       try {
@@ -35,10 +31,6 @@ const Analytics = () => {
     };
     getData();
   }, []);
-
-  data?.forEach((element) => {
-    request.push(element);
-  });
 
   const updateChart = async () => {
     await api.get('/chart/update');
@@ -62,13 +54,6 @@ const Analytics = () => {
     setCurrencyTo(name);
     setPriceTo(price);
     setSymbolTo(symbol);
-  };
-
-  const invertItems = () => {
-    setCurrencyFrom(currencyTo);
-    setCurrencyTo(currencyFrom);
-    setPriceFrom(priceTo);
-    setPriceTo(priceFrom);
   };
 
   return (
