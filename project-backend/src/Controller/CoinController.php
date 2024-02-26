@@ -53,6 +53,8 @@ class CoinController extends AbstractController
 
   #[Route('/currency', name: 'get_currency', methods: ['GET'])]
   #[Route('/currency/update', name: 'get_currency_update', methods: ['GET'])]
+  /**@Cors(allowOrigin="*", allowHeaders={"X-Requested-With", "Content-Type"})
+   */
   public function getCurrency(Request $request): Response
   {
     try {

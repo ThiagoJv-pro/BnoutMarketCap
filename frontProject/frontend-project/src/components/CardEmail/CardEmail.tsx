@@ -5,9 +5,12 @@ import {useEffect, useState} from 'react';
 import api from '../../api/dataapi.tsx';
 import CardInfo from '../CardInfo/CardInfo.tsx';
 import Modals from '../Modal/Modal.tsx';
+import EmailService from './email.service.ts';
+ 
 import './style.scss';
 
 const CardEmail = () => {
+
 
     const[isSubmitted, setIsSubmitted] = useState(false);
     const[email, setEmail] = useState('');

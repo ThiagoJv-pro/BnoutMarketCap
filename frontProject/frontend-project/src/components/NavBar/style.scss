@@ -1,5 +1,13 @@
 .nav-style {
     font-size: x-large;
     color: #14FFEC;
-    text-shadow: 1px 1px 2px rgb(24, 13, 168), 0 0 1em rgb(0, 174, 255), 0 0 0.2em blue;;
+    text-shadow: 1px 1px 2px rgb(24, 13, 168), 0 0 1em rgb(0, 174, 255), 0 0 0.2em blue;
+}
+
+.color-text-price{ 
+    color: hsl(175, 100%, 54%);
+}
+
+.color-text-symbol {
+    color: white;
 }

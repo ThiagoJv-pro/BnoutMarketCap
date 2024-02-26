@@ -10,9 +10,13 @@ import Card from 'react-bootstrap/Card';
 import api from "../../api/dataapi.tsx";
 import Modals from '../Modal/Modal.tsx';
 import CardInfo from '../CardInfo/CardInfo.tsx';
+import ConverterService from './converter.service.ts';
+
 import './style.scss';
 
 const Converter = () => {
+  const converterService = new ConverterService();
+
   const [data, setData] = useState([]);
   const [converter, setConverter] = useState(0.1);
   const [currencyFrom, setCurrencyFrom] = useState(null);
@@ -25,24 +29,19 @@ const Converter = () => {
   const [showModal, setShowModal] = useState(false);
 
   const fetchData = async () => {
-    try {
-      const response = await api.get('currency');
-      setData(response.data || []);
-    } catch (error) {
-      console.error(error);
-    }
-  };
+      try {
+        converterService.getCoins().then(coinsData => {
+          setData(coinsData || [])
+        })
+      } catch (error) {
+        console.error(error);
+      } 
+    } 
 
   const fetchConverterData = async () => {
     try {
-      const response = await api.get('/converter', {
-        params: {
-          fromPrice: priceFrom,
-          toPrice: priceTo,
-          inverter: inverter
-        }
-      });
-      setConverter(response.data);
+      converterService.converterCurrency(priceFrom, priceTo, inverter)
+      .then(converterData => {setConverter(converterData)});
     } catch (error) {
       console.error(error);
     }
