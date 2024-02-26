@@ -15,9 +15,10 @@ class ConverterService
     {
         if ($inverter && ($priceFrom != 0 || $priceTo != 0)) {
             $resultConverter = $priceFrom / $priceTo;
+        } else {
+            $resultConverter = $priceFrom * $priceTo;
         }
-
-        $resultConverter = $priceFrom * $priceTo;
+    
         return $resultConverter;
     }
 

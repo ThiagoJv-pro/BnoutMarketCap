@@ -17,7 +17,7 @@ class ConverterController extends AbstractController
     {
         try {
 
-            $fromPrice = $request->query->get('fromPrice'); //Capturar valor correspondete ao parametro passado
+            $fromPrice = $request->query->get('fromPrice'); //Capturar valor correspondente ao parametro passado
             $toPrice = $request->query->get('toPrice');
             $inverter = $request->query->get('inverter');
             $conversion = $converterService->converter($fromPrice, $toPrice, $inverter);

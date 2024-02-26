@@ -8,9 +8,14 @@ import api from '../../api/dataapi.tsx';
 import ChartC from '../Chart/Chart.tsx';
 import Modals from '../Modal/Modal.tsx';
 import CardInfo from '../CardInfo/CardInfo.tsx';
+import AnalyticsService from './analytics.service.ts';
+
 import './style.scss';
 
 const Analytics = () => {
+
+  const analyticsService = new AnalyticsService();
+
   const [data, setData] = useState(null);
   const [currencyFrom, setCurrencyFrom] = useState(null);
   const [currencyTo, setCurrencyTo] = useState(null);
@@ -21,15 +26,11 @@ const Analytics = () => {
   const [showModal, setShowModal] = useState(false);
 
   useEffect(() => {
-    const getData = async () => {
-      try {
-        const response = await api.get('currency');
-        setData(response.data);
-      } catch (error) {
-        console.error(error);
-      }
-    };
-    getData();
+      analyticsService.getCoins().then(coinsData => {
+      setData(coinsData);
+    }).catch(error => {
+      console.error(error);
+    });
   }, []);
 
   const updateChart = async () => {
